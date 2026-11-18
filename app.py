@@ -58,7 +58,7 @@ def analyze(raw: str):
 
 
 with gr.Blocks(title="Customers say") as demo:
-    gr.Markdown("## Customers say\nAspect highlights extracted by ModernBERT-ABSA.")
+    gr.Markdown("## Customers say\nAspect highlights extracted by RoBERTa-ABSA (R-Drop).")
     reviews_box = gr.Textbox(value=EXAMPLE_REVIEWS, lines=8, label="Amazon reviews (one per line)")
     analyze_btn = gr.Button("Analyze Reviews", variant="primary")
     chips = gr.Radio(choices=["All"], value="All", label="Select to learn more")
