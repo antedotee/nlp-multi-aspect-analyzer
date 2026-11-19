@@ -1,5 +1,6 @@
 torch>=2.1
-transformers>=4.48.0
+transformers>=4.56
+huggingface_hub>=0.24
 datasets>=2.19
 seqeval>=1.2.2
 scikit-learn>=1.2
