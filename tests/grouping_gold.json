@@ -1,0 +1,24 @@
+{
+  "description": "Held-out gold groups for aspect-chip grouping. Phrases in one list belong in one chip; every 'singletons' phrase must stay alone. Written before tuning; extend with labelled aspects from real reviews.",
+  "groups": [
+    ["screen", "display", "screens"],
+    ["keyboard", "keys"],
+    ["price", "cost", "pricing", "price tag"],
+    ["sound", "audio", "sound quality", "audio quality"],
+    ["shipping", "delivery", "shipment"],
+    ["customer service", "customer support", "support team", "tech support"],
+    ["comfort", "comfort level", "wearing comfort"],
+    ["microphone", "mic", "mics"],
+    ["charger", "charging cable", "power adapter", "charging cord"],
+    ["touch controls", "touch control", "gesture controls"],
+    ["noise cancellation", "noise cancelling", "noise canceling"],
+    ["webcam", "web cam", "camera"],
+    ["trackpad", "touchpad", "track pad"],
+    ["build quality", "build", "construction"],
+    ["app", "mobile app", "companion app"],
+    ["ear cushions", "ear pads", "earpads"],
+    ["battery", "batteries", "battery life"],
+    ["bass", "low end"]
+  ],
+  "singletons": ["fan", "hinge", "SSD", "Bluetooth pairing", "warranty", "screen protector", "battery case", "earbuds", "packaging", "volume", "Windows", "speakers"]
+}
