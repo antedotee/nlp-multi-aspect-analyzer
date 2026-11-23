@@ -13,7 +13,7 @@ import torch
 from sklearn.cluster import AgglomerativeClustering
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 
-DEFAULT_MODEL_PATH = "artifacts/modernbert-absa"
+DEFAULT_MODEL_PATH = "artifacts/absa-model"
 LABELS = ["O", "B-POS", "I-POS", "B-NEG", "I-NEG", "B-NEU", "I-NEU"]
 
 Sentiment = Literal["POS", "NEG", "NEU"]
@@ -157,12 +157,17 @@ class AspectHighlighter:
         self,
         reviews: list[str],
         batch_size: int = 16,
-        max_length: int = 1024,
-        cluster_threshold: float = 0.28,
+        max_length: int = 512,
+        cluster_threshold: float = 0.22,
     ) -> HighlightResult:
         highlights = [ReviewHighlight(id=i, text=r, spans=[]) for i, r in enumerate(reviews)]
         todo = [h for h in highlights if h.text.strip()]
         mentions: list[tuple[int, AspectSpan, np.ndarray]] = []
+        model_max_length = getattr(self.tokenizer, "model_max_length", max_length)
+        if model_max_length < 100_000:
+            effective_max_len = min(max_length, model_max_length)
+        else:
+            effective_max_len = max_length
 
         for b in range(0, len(todo), batch_size):
             batch = todo[b : b + batch_size]
@@ -170,7 +175,7 @@ class AspectHighlighter:
                 [h.text for h in batch],
                 return_offsets_mapping=True,
                 truncation=True,
-                max_length=max_length,
+                max_length=effective_max_len,
                 padding=True,
                 return_tensors="pt",
             )
@@ -178,7 +183,7 @@ class AspectHighlighter:
             mask = enc["attention_mask"].tolist()
             out = self.model(**enc.to(self.device), output_hidden_states=True)
             probs, preds = out.logits.float().softmax(-1).max(-1)
-            hidden = out.hidden_states[-1].float().cpu().numpy()
+            hidden = out.hidden_states[0].float().cpu().numpy()
             probs, preds = probs.cpu().tolist(), preds.cpu().tolist()
 
             for j, h in enumerate(batch):

@@ -5,4 +5,6 @@ __pycache__/
 *.tar.gz
 artifacts/modernbert-absa/*.safetensors
 artifacts/modernbert-absa/*.bin
+artifacts/absa-model/*.safetensors
+artifacts/absa-model/*.bin
 *_output.ipynb
