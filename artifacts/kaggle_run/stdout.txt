@@ -1,0 +1,112 @@
+GPU: Tesla T4 (14.6 GB)
+python 3.13.16 | torch 2.11.0+cu130 | transformers 5.20.2 | datasets 4.8.5
+installed: ['seqeval']
+dropped labels: {'conflict': 136} | unaligned spans: 0 | overlapping spans skipped: 0
+split      domain  sentences  NEU  NEG  POS
+train     laptops       1164  371  682  776
+train restaurants       1580  494  642 1745
+  val     laptops        146   34   92  124
+  val restaurants        198   71   87  213
+ test     laptops        146   54   88   81
+ test restaurants        198   68   76  203
+round-trip (ModernBERT offsets -> BIO -> char spans): 5889/5901 = 99.80% spans recovered exactly
+long reviews: 30 | ModernBERT tokens 867-899 | 626 gold aspects, all placed after token 600
+
+=== BERT-base (bert-base-uncased) ===
+{'model': 'BERT-base', 'params_M': 108.897, 'fp16_train': True, 'train_min': 1.3727, 'best_val_e2e_f1': 0.6338, 'e2e_f1': 0.6119, 'ate_f1': 0.834, 'precision': 0.5859, 'recall': 0.6404, 'throughput': 1573.3688, 'tput_min': 1554.1854, 'tput_max': 1587.0984, 'p95_ms': 28.2252, 'peak_mem_mb': 1322.7583, 'nonfinite_logits': 0, 'long_max_len': 512, 'long_recall': 0.0}
+
+=== RoBERTa-base (roberta-base) ===
+{'model': 'RoBERTa-base', 'params_M': 124.0604, 'fp16_train': True, 'train_min': 1.1999, 'best_val_e2e_f1': 0.6816, 'e2e_f1': 0.68, 'ate_f1': 0.869, 'precision': 0.6476, 'recall': 0.7158, 'throughput': 1605.9097, 'tput_min': 1603.4729, 'tput_max': 1610.7541, 'p95_ms': 28.2816, 'peak_mem_mb': 1497.6099, 'nonfinite_logits': 0, 'long_max_len': 512, 'long_recall': 0.0}
+
+=== DeBERTa-v3-base (microsoft/deberta-v3-base) ===
+{'model': 'DeBERTa-v3-base', 'params_M': 183.8369, 'fp16_train': False, 'train_min': 3.3548, 'best_val_e2e_f1': 0.7055, 'e2e_f1': 0.6734, 'ate_f1': 0.8557, 'precision': 0.6457, 'recall': 0.7035, 'throughput': 280.7251, 'tput_min': 280.4992, 'tput_max': 282.0835, 'p95_ms': 174.0965, 'peak_mem_mb': 2430.9902, 'nonfinite_logits': 0, 'long_max_len': 512, 'long_recall': 0.0}
+
+=== ModernBERT-base (answerdotai/ModernBERT-base) ===
+{'model': 'ModernBERT-base', 'params_M': 149.6102, 'fp16_train': True, 'train_min': 1.8317, 'best_val_e2e_f1': 0.6544, 'e2e_f1': 0.6147, 'ate_f1': 0.8236, 'precision': 0.5881, 'recall': 0.6439, 'throughput': 719.5661, 'tput_min': 715.6561, 'tput_max': 720.3706, 'p95_ms': 64.6325, 'peak_mem_mb': 1854.3159, 'nonfinite_logits': 0, 'long_max_len': 1024, 'long_recall': 0.4281}
+
+=== RoBERTa-base + R-Drop (Ours) (roberta-base) ===
+{'model': 'RoBERTa-base + R-Drop (Ours)', 'params_M': 124.0604, 'fp16_train': True, 'train_min': 2.1362, 'best_val_e2e_f1': 0.6855, 'e2e_f1': 0.6915, 'ate_f1': 0.8731, 'precision': 0.6689, 'recall': 0.7158, 'throughput': 1557.2435, 'tput_min': 1540.3711, 'tput_max': 1567.5294, 'p95_ms': 29.0269, 'peak_mem_mb': 1496.7974, 'nonfinite_logits': 0, 'long_max_len': 512, 'long_recall': 0.0}
+saved /kaggle/working/artifacts/absa-model and /kaggle/working/artifacts/absa-model.tar.gz (409 MB)
+                       model  params_M  fp16_train  train_min  best_val_e2e_f1  e2e_f1  ate_f1  precision  recall  throughput  tput_min  tput_max  p95_ms  peak_mem_mb  nonfinite_logits  long_max_len  long_recall
+                   BERT-base   108.897        True      1.373            0.634   0.612   0.834      0.586   0.640    1573.369  1554.185  1587.098  28.225     1322.758                 0           512        0.000
+                RoBERTa-base   124.060        True      1.200            0.682   0.680   0.869      0.648   0.716    1605.910  1603.473  1610.754  28.282     1497.610                 0           512        0.000
+             DeBERTa-v3-base   183.837       False      3.355            0.706   0.673   0.856      0.646   0.704     280.725   280.499   282.083 174.096     2430.990                 0           512        0.000
+             ModernBERT-base   149.610        True      1.832            0.654   0.615   0.824      0.588   0.644     719.566   715.656   720.371  64.633     1854.316                 0          1024        0.428
+RoBERTa-base + R-Drop (Ours)   124.060        True      2.136            0.685   0.692   0.873      0.669   0.716    1557.243  1540.371  1567.529  29.027     1496.797                 0           512        0.000
+
+Throughput: median of 5 runs after 1 warmup, 256 test sentences, batch 32, fp16 autocast (fp32 for DeBERTa-v3), T4 SDPA.
+Single training seed per model: E2E-F1 gaps under ~1 point are within seed-to-seed noise.
+Ours vs BERT-base        E2E-F1 +7.96 pts | speed 0.99x | long-review recall 0.0% vs 0.0%
+Ours vs RoBERTa-base     E2E-F1 +1.15 pts | speed 0.97x | long-review recall 0.0% vs 0.0%
+Ours vs DeBERTa-v3-base  E2E-F1 +1.81 pts | speed 5.55x | long-review recall 0.0% vs 0.0%
+Ours vs ModernBERT-base  E2E-F1 +7.68 pts | speed 2.16x | long-review recall 0.0% vs 42.8%
+[ 1] Amazing noise cancellation, but the ear cushions get hot after an hour.
+      + 'noise cancellation'         POS  0.98
+      - 'ear cushions'               NEG  0.99
+[ 2] The battery life is incredible and lasts a full week, though the charging case feels cheap.
+      + 'battery life'               POS  0.99
+      - 'charging case'              NEG  0.98
+[ 3] Sound quality is crisp and the bass is punchy. The touch controls are way too sensitive.
+      + 'Sound quality'              POS  0.98
+      + 'bass'                       POS  0.99
+      - 'touch controls'             NEG  0.98
+[ 4] Bluetooth pairing was instant, but the microphone makes my voice sound muffled on calls.
+      + 'Bluetooth pairing'          POS  0.97
+      - 'microphone'                 NEG  0.95
+[ 5] These headphones are comfortable for long flights and the carrying case is sturdy.
+      + 'carrying case'              POS  0.99
+[ 6] The app is buggy and keeps crashing, yet the equalizer presets sound great.
+      - 'app'                        NEG  0.93
+      + 'equalizer presets'          POS  0.99
+[ 7] This laptop's screen is gorgeous and bright, but the keyboard flexes when I type.
+      + 'screen'                     POS  0.99
+      - 'keyboard'                   NEG  0.97
+[ 8] Performance is snappy for coding and the trackpad is smooth. The fan gets loud under load.
+      + 'Performance'                POS  0.98
+      + 'trackpad'                   POS  0.99
+      - 'fan'                        NEG  0.91
+[ 9] Battery barely lasts four hours and the charger is bulky. At least the build quality feels premium.
+      - 'Battery'                    NEG  0.90
+      - 'charger'                    NEG  0.97
+      + 'build quality'              POS  0.98
+[10] Customer support was helpful and shipping was fast, but the webcam is grainy.
+      + 'Customer support'           POS  0.95
+      + 'shipping'                   POS  0.98
+      - 'webcam'                     NEG  0.97
+[11] The speakers are tinny and the price is too high for what you get.
+      - 'speakers'                   NEG  0.98
+      - 'price'                      NEG  0.97
+[12] Windows came preinstalled with bloatware, though the SSD boots in seconds and the hinge is solid.
+      - 'Windows'                    NEG  0.59
+      + 'SSD'                        POS  0.97
+      + 'hinge'                      POS  0.99
+
+Aspect summary  (aspect | +pos / -neg / ~neu)
+  [ noise cancellation | +1 / -0 / ~0 ]
+  [ ear cushions | +0 / -1 / ~0 ]
+  [ battery life | +1 / -0 / ~0 ]
+  [ charging case | +0 / -1 / ~0 ]
+  [ sound quality | +1 / -0 / ~0 ]
+  [ bass | +1 / -0 / ~0 ]
+  [ touch controls | +0 / -1 / ~0 ]
+  [ bluetooth pairing | +1 / -0 / ~0 ]
+  [ microphone | +0 / -1 / ~0 ]
+  [ carrying case | +1 / -0 / ~0 ]
+  [ app | +0 / -1 / ~0 ]
+  [ equalizer presets | +1 / -0 / ~0 ]
+  [ screen | +1 / -0 / ~0 ]
+  [ keyboard | +0 / -1 / ~0 ]
+  [ performance | +1 / -0 / ~0 ]
+  [ trackpad | +1 / -0 / ~0 ]
+  [ fan | +0 / -1 / ~0 ]
+  [ battery | +0 / -1 / ~0 ]
+  [ charger | +0 / -1 / ~0 ]
+  [ build quality | +1 / -0 / ~0 ]
+  [ customer support | +1 / -0 / ~0 ]
+  [ shipping | +1 / -0 / ~0 ]
+  [ webcam | +0 / -1 / ~0 ]
+  [ speakers | +0 / -1 / ~0 ]
+  [ price | +0 / -1 / ~0 ]
+  [ windows | +0 / -1 / ~0 ]
+  [ ssd | +1 / -0 / ~0 ]
+  [ hinge | +1 / -0 / ~0 ]
