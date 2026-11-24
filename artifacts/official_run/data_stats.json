@@ -1,0 +1,38 @@
+{
+  "train": {
+    "sentences": 5346,
+    "no_aspect": 2302,
+    "aspects": 5221,
+    "POS": 2798,
+    "NEG": 1462,
+    "NEU": 961
+  },
+  "dev": {
+    "sentences": 595,
+    "no_aspect": 265,
+    "aspects": 585,
+    "POS": 297,
+    "NEG": 168,
+    "NEU": 120
+  },
+  "test_laptops": {
+    "sentences": 800,
+    "no_aspect": 389,
+    "aspects": 638,
+    "POS": 341,
+    "NEG": 128,
+    "NEU": 169
+  },
+  "test_restaurants": {
+    "sentences": 800,
+    "no_aspect": 200,
+    "aspects": 1120,
+    "POS": 728,
+    "NEG": 196,
+    "NEU": 196
+  },
+  "train_test_text_overlap": {
+    "laptops": 1,
+    "restaurants": 1
+  }
+}

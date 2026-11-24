@@ -46,11 +46,13 @@ def render(result: dict | None, aspect: str) -> str:
 
 
 def analyze(raw: str):
-    if not os.path.isdir(MODEL_PATH):
-        msg = (f"<p>⚠️ No trained model at <code>{html.escape(MODEL_PATH)}</code>. "
-               "Run <code>train_and_benchmark.ipynb</code> first.</p>")
+    try:
+        result = highlight_reviews([line for line in raw.splitlines() if line.strip()], model_path=MODEL_PATH)
+    except (OSError, ValueError) as exc:  # missing folder, unknown repo id, or no network for a first download
+        reason = str(exc).strip().splitlines()[0] if str(exc).strip() else type(exc).__name__
+        msg = (f"<p>⚠️ Could not load the model from <code>{html.escape(MODEL_PATH)}</code>: "
+               f"{html.escape(reason)}<br>See <b>Quick start</b> in the README.</p>")
         return None, gr.update(choices=["All"], value="All"), msg
-    result = highlight_reviews([line for line in raw.splitlines() if line.strip()], model_path=MODEL_PATH)
     choices = ["All"] + [
         (f'{c["aspect"]} ({c["pos"]}+ / {c["neg"]}-)', c["aspect"]) for c in result["chips"]
     ]

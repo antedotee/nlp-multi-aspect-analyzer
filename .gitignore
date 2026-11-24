@@ -1,10 +1,23 @@
+# OS / editor
 .DS_Store
+
+# Python
 __pycache__/
 *.pyc
 .venv/
+.pytest_cache/
+
+# Logs
+*.log
+
+# Model weights and training outputs (weights are published on the Hugging Face Hub)
+artifacts/absa-model/
+artifacts/absa-model-*/
+*.safetensors
+*.bin
 *.tar.gz
-artifacts/modernbert-absa/*.safetensors
-artifacts/modernbert-absa/*.bin
-artifacts/absa-model/*.safetensors
-artifacts/absa-model/*.bin
+runs/
+benchmark_out/
+
+# Notebook copies with outputs
 *_output.ipynb
