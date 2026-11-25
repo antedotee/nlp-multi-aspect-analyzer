@@ -9,6 +9,8 @@ The model is a RoBERTa-base token tagger fine-tuned with **R-Drop** on SemEval-2
 
 **Trained weights:** [🤗 Deepanshu027/roberta-base-rdrop-absa-semeval14](https://huggingface.co/Deepanshu027/roberta-base-rdrop-absa-semeval14)
 
+**Project report:** [IEEE-format paper (PDF)](report/report.pdf) by Deepanshu, Agrapujya, Kartik and Sahil (B.Tech CSAI, Rishihood University)
+
 ---
 
 ## Contents
@@ -237,6 +239,7 @@ python eval_grouping.py       # chip-grouping precision / recall / F1 by thresho
 ├── benchmark_official.py       # Official-split, multi-seed training and evaluation of 5 encoders
 ├── eval_grouping.py            # Scores chip grouping against a labelled gold set
 ├── train_and_benchmark.ipynb   # Original exploration notebook (random split, single seed)
+├── report/                     # IEEE-format project report (LaTeX, PDF, figure script)
 ├── requirements.txt
 ├── tests/
 │   ├── test_grouping.py
